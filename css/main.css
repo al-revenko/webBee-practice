@@ -1,0 +1,72 @@
+@import url('./reset.css');
+@import url('./colors.css');
+@import url('./fonts.css');
+
+body {
+  background-color: var(--bg-color);
+  min-height: 100dvh;
+}
+
+main {
+  padding: 32px 32px 0;
+}
+
+.navmenu {
+  padding: 0 32px;
+  height: 40px;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+  background-color: var(--bg-second-color);
+  
+  & div {
+    padding: 0;
+    height: 100%;
+    display: flex;
+  }
+}
+
+.navbtn {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-items: center;
+  height: 100%;
+  padding: 0 16px;
+  color: var(--black-color);
+
+  &.active, &:hover{
+    background: var(--bg-color);
+  }
+}
+
+.resume, .map, .time {
+  height: 100vh;
+  color: white;
+}
+
+.resume {
+  background-color: red;
+}
+
+.map {
+  background-color: blue;
+}
+
+.time {
+  background-color: green;
+}
+
+@media screen and (max-width: 1440px) {
+  .container-xxl {
+    margin: 0 !important;
+  }
+}
+
+@media screen and (max-width: 768px) { 
+  main {
+    padding: 0 16px !important;
+  }
+
+  .navmenu div {
+    justify-content: center;
+  }
+}

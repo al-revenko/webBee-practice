@@ -1,8 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
-.roboto-sm-font {
+.roboto-sm-font, .roboto-md-font {
   font-family: Roboto;
-  font-size: 14px;
   font-weight: 400;
+}
+
+.roboto-sm-font {
+  font-size: 14px;
   line-height: 16px;
+}
+
+.roboto-md-font {
+  font-size: 18px;
+  line-height: 21px;
 }

@@ -1,0 +1,147 @@
+@import url('../colors.css');
+
+.resume {
+  padding-bottom: 29px !important;
+  display: grid;
+  grid-template-rows: max-content;
+  grid-template-columns: 1fr 264px;
+  gap: 32px;
+}
+
+.resume .info {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  & .profile {
+    padding: 32px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    & .avatar {
+      display: flex;
+      justify-content: center;
+      border-radius: 100px;
+      width: 140px;
+      height: 140px;
+      overflow: hidden;
+
+      & img {
+        width: 150%;
+        height: 150%;
+        object-fit: cover;
+        object-position: center;
+      }
+    }
+
+    & .person {
+      padding-top: 16px;
+      text-align: center;
+
+      & h1 {
+        color: var(--black-color);
+      }
+
+      & span {
+        padding-top: 8px;
+        color: var(--second-tx-color);
+      }
+    }
+
+    & .contacts {
+      padding-top: 16px;
+      display: flex;
+      gap: 8px;
+
+      & a {
+        fill: red;
+      }
+    }
+  }
+
+  & .skills {
+    padding: 8px 0 16px;
+    color: var(--black-color);
+
+    & h2 {
+      padding: 8px 16px 10px;
+      font-weight: 500;
+      border-bottom: 1px solid var(--grey-color);
+    }
+
+    & ul {
+      padding: 0 16px;
+      padding-top: 16px;
+      display: grid;
+      gap: 16px;
+
+      & li {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+    }
+  }
+}
+
+.resume .content {
+  color: var(--black-color);
+
+  & img {
+    max-width: 1016px;
+    max-height: 424px;
+    padding: 56px 32px 0;
+    width: 100%;
+  }
+
+  & .about {
+    padding: 16px 32px 32px;
+
+    & h2 {
+      font-weight: 500;
+      padding-bottom: 16px;
+    }
+
+    & div {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .resume .content {
+    & img {
+      padding: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .resume {
+    grid-template-columns: 1fr;
+  }
+
+  .resume .info {
+    grid-row: 1;
+    & .skills {
+      & h2 {
+        text-align: center;
+      }
+
+      & ul {
+        grid-template-columns: repeat(2, 105px);
+        justify-content: center;
+      }
+    }
+  }
+
+  .resume .content {
+    & .about {
+      padding: 16px 16px 16px;
+    }
+  }
+}

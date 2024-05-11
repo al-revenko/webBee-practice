@@ -231,13 +231,21 @@
 
         <div id="map" class="container-xxl p-0 map">MAP</div>
 
-        <div id="time" class="container-xxl p-0 time">TIME</div>
+        <div id="time" class="container-xxl p-0 time">
+            <div class="block">
+                <h1>
+                    Timer
+                </h1>
+                <div id="timer">00:00:00</div>
+            </div>
+        </div>
     </main>
     <!-- Bootstrap JavaScript Libraries -->
     <script src="/libs/bootstrap/bootstrap.min.js"></script>
     
     <script type="module" defer src="/js/router.js"></script>
     <script type="module" defer src="/js/navbar.js"></script>
+    <script type="module" async src="/js/time.js"></script>
 </body>
 
 </html>

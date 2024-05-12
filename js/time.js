@@ -12,9 +12,9 @@ function withZero(value) {
 
 if (timer) {
   setInterval(() => {
-    if (units.s <= 58) {
+    if (units.s < 59) {
       units.s += 1
-    } else if (units.m <= 58) {
+    } else if (units.m < 59) {
       units.s = 0
       units.m += 1
     } else {

@@ -1,4 +1,4 @@
-import { redirect, currentRoute } from "./router.js";
+import { router } from "./router.js";
 
 const resumeNavBtn = document.getElementById('navBtnResume')
 const mapNavBtn = document.getElementById('navBtnMap')
@@ -12,32 +12,36 @@ const navBtns = {
 
 let currentActive = null
 
-const setActive = (navBtn) => {
-  navBtn.classList.add('active')
+const setActive = (route) => {
+  if (route in navBtns) {
+    const navBtn = navBtns[route]
 
-  if (currentActive) {
-    currentActive.classList.remove('active')
+    if (currentActive) {
+      currentActive.classList.remove('active')
+    }
+    
+    navBtn.classList.add('active')
+
+    currentActive = navBtn
   }
-  currentActive = navBtn
 }
 
-if (currentRoute in navBtns) {
-  setActive(navBtns[currentRoute])
+router.onRouteChange('/', setActive)
+router.onRouteChange('/map', setActive)
+router.onRouteChange('/time', setActive)
+
+if (router.currentRoute in navBtns) {
+  setActive(router.currentRoute)
 }
-
-
 
 resumeNavBtn.addEventListener('click', () => {
-  setActive(resumeNavBtn)
-  redirect('/')
+  router.redirect('/')
 })
 
 mapNavBtn.addEventListener('click', () => {
-  setActive(mapNavBtn)
-  redirect('/map')
+  router.redirect('/map')
 })
 
 timeNavBtn.addEventListener('click', () => {
-  setActive(timeNavBtn)
-  redirect('/time')
+  router.redirect('/time')
 })

@@ -1,4 +1,73 @@
-.map {
-  min-height: 100dvh;
-  background-color: blue;
+@import url('../colors.css');
+
+.map .block {
+  display: flex;
+  flex-direction: column;
+  padding: 18px 32px 32px;
+  height: 568px;
+
+  & h2 {
+    color: var(--black-color);
+    padding-bottom: 19px;
+  }
+}
+
+.map-container {
+  position: relative;
+  height: 100%;
+}
+
+.map-preloader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  background: var(--white-color);
+
+  & .spinner {
+    animation-name: spin;
+    animation-duration: 3500ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+}
+
+.map-content {
+  width: 100%;
+  height: 100%;
+}
+
+.map-marker {
+  position: relative;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .map .block {
+    padding: 0;
+    height: calc(90dvh - 56px);
+    min-height: 300px;
+
+    & h2 {
+      text-align: center;
+      padding: 8px 0;
+    }
+  }
 }

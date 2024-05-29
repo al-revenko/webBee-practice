@@ -4,6 +4,7 @@
 @import url('./pages/resume.css');
 @import url('./pages/map.css');
 @import url('./pages/time.css');
+@import url('./pages/notFound.css');
 
 body {
   background-color: var(--bg-color);

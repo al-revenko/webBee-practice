@@ -1,0 +1,18 @@
+@import url('../colors.css');
+
+.not-found {
+  font-size: 32px;
+  font-family: 'Roboto';
+  color: var(--black-color);
+}
+
+@media screen and (max-width: 768px) {
+  .not-found {
+    display: flex;
+    justify-content: center;
+
+    & h1 {
+      padding-top: 20px;
+    }
+  }
+}

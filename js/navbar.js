@@ -1,4 +1,4 @@
-import { router } from "./router/router.js";
+import { router } from "./router.js";
 
 const resumeNavBtn = document.getElementById('navBtnResume')
 const mapNavBtn = document.getElementById('navBtnMap')

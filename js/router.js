@@ -44,14 +44,10 @@ class Router {
 
     this.replaceInHistory(this.#currentRoute)
     document.title = routeData.title
-
-    for (let route in this.#routes) {
-      if (route !== this.#currentRoute) {
-        const routeContent = document.getElementById(this.#routes[route].contentID)
-        if (routeContent) {
-          routeContent.hidden = true
-        }
-      }
+    
+    const routeContent = document.getElementById(routeData.contentID)
+    if (routeContent) {
+      routeContent.hidden = false
     }
   }
 
@@ -84,7 +80,7 @@ class Router {
 
       else if (notFoundRoute) {
         const notFoundData = this.#routes[notFoundRoute]
-        
+
         const notFoundContent = document.getElementById(notFoundData.contentID)
 
         if (notFoundContent) {

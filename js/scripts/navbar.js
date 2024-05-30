@@ -1,4 +1,4 @@
-import { router } from "./router.js";
+import { router } from "../router.js";
 
 const resumeNavBtn = document.getElementById('navBtnResume')
 const mapNavBtn = document.getElementById('navBtnMap')
@@ -26,9 +26,10 @@ const setActive = (route) => {
   }
 }
 
-router.onRouteChange('/', setActive)
-router.onRouteChange('/map', setActive)
-router.onRouteChange('/time', setActive)
+router.onRouteAttach('/', setActive)
+router.onRouteAttach('/map', setActive)
+router.onRouteAttach('/time', setActive)
+router.onRouteAttach('/404', () => currentActive.classList.remove('active'))
 
 if (router.currentRoute in navBtns) {
   setActive(router.currentRoute)

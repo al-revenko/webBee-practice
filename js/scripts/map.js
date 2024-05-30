@@ -1,14 +1,8 @@
-import { router } from "./router.js";
+import { router } from "../router.js";
 
 const route = '/map'
 
-let mapReady = false
-
 export async function initMap() {
-  if (mapReady) {
-    return
-  }
-
   const mapContainer = document.getElementById('map-content')
   const preloadContainer = document.getElementById('map-preloader')
 
@@ -39,17 +33,14 @@ export async function initMap() {
       markerElement
     );
 
-    // Добавляем слой для отображения схематической карты
     map.addChild(new YMapDefaultSchemeLayer());
     map.addChild(new YMapDefaultFeaturesLayer());
     map.addChild(marker)
 
     if (preloadContainer) {
       // Добавил задержку чтобы можно было увидеть прелоадер 
-      setTimeout(() => preloadContainer.hidden = true, 2000)
+      setTimeout(() => preloadContainer.hidden = true, 200)
     }
-
-    mapReady = true
   }
 }
 
@@ -57,4 +48,4 @@ if (router.currentRoute === route) {
   initMap()
 }
 
-router.onRouteChange(route, initMap)
+router.onRouteAttach(route, initMap)

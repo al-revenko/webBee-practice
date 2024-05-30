@@ -1,123 +1,142 @@
-import { ORIGIN } from "./origin.js"
+import { getAbsoluteURL, attach, detach } from "./uttils.js"
+
+const routes = {
+  '/': {
+    title: 'Resume',
+    id: 'resume',
+    component: './components/resume.html',
+    root: 'page'
+  },
+
+  '/map': {
+    title: 'Map',
+    id: 'map',
+    component: './components/map.html',
+    root: 'page'
+  },
+
+  '/time': {
+    title: 'Time',
+    id: 'time',
+    component: './components/timer.html',
+    root: 'page'
+  },
+
+  '/404': {
+    title: 'Not found',
+    id: 'not-found',
+    component: './components/not-found.html',
+    root: 'page'
+  },
+}
 
 class Router {
-  #routes = {
-    '/': {
-      title: 'Resume',
-      contentID: 'resume',
-    },
-
-    '/map': {
-      title: 'Map',
-      contentID: 'map',
-    },
-
-    '/time': {
-      title: 'Time',
-      contentID: 'time',
-    },
-
-    '/404': {
-      title: 'Not found',
-      contentID: 'not-found',
-    },
-  }
-
   #currentRoute = '/'
+  #routes = null
+  #notFoundRoute = null
 
-  constructor() {
+  constructor(routes, notFoundRoute = '/404') {
+    this.#routes = routes
+    this.#notFoundRoute = notFoundRoute
+
+    let initRoute;
+
     const routeFrom404 = window.localStorage.getItem('404-redirect')
 
     if (routeFrom404) {
       if (routeFrom404 in this.#routes) {
-        this.#currentRoute = routeFrom404
+        initRoute = routeFrom404
       }
 
-      else if ('/404' in this.#routes) {
-        this.#currentRoute = '/404'
+      else if (this.#notFoundRoute in this.#routes) {
+        initRoute = this.#notFoundRoute
       }
-
+      
       window.localStorage.removeItem('404-redirect')
     }
-
-    const routeData = this.#routes[this.#currentRoute]
-
-    this.replaceInHistory(this.#currentRoute)
-    document.title = routeData.title
     
-    const routeContent = document.getElementById(routeData.contentID)
-    if (routeContent) {
-      routeContent.hidden = false
+    else {
+      initRoute = this.#currentRoute
+    }
+
+    this.replaceInHistory(initRoute)
+    this.render(initRoute)
+
+    window.onpopstate = (ev) => {
+      if (ev.state && ev.state !== this.#currentRoute) {
+        this.render(ev.state)
+      }
     }
   }
 
   redirect(route) {
-    const notFoundRoute = '/404' in this.#routes ? '/404' : null
+    if (route in this.#routes) {
+      this.pushToHistory(route)
+      this.render(route)
+    } 
 
-    if (route !== this.#currentRoute) {
-      const currentContent = document.getElementById(window.history.state)
+    else if (this.#notFoundRoute in this.#routes) {
+      this.pushToHistory(this.#notFoundRoute)
+      this.render(this.#notFoundRoute)
+    }
+  }
 
-      if (currentContent) {
-        currentContent.hidden = true
-      }
+  async render(route) {
+    const routeData = this.#routes[route]
+    const currentRouteData = this.#routes[this.#currentRoute]
 
-      if (route in this.#routes) {
-        const routeData = this.#routes[route]
-
-        const routeContent = document.getElementById(routeData.contentID)
-
-        if (routeContent) {
-          routeContent.hidden = false
-          this.pushToHistory(route)
-          document.title = routeData.title
-          this.#currentRoute = route
+    if (routeData) {
+      const html = await fetch(routeData['component']).then((response) => response.text())
+      
+      if (html) {
+        detach(currentRouteData.root)
+        if (currentRouteData.onDetach) {
+          currentRouteData.onDetach.map((f) => f(this.#currentRoute))
         }
 
-        if (routeData.cb && routeData.cb.length > 0) {
-          routeData.cb.map((f) => f(route))
-        }
-      }
-
-      else if (notFoundRoute) {
-        const notFoundData = this.#routes[notFoundRoute]
-
-        const notFoundContent = document.getElementById(notFoundData.contentID)
-
-        if (notFoundContent) {
-          notFoundContent.hidden = false
-          this.pushToHistory(notFoundRoute)
-          document.title = notFoundData.title
-          this.#currentRoute = notFoundRoute
+        attach(routeData.root, html)
+        document.title = routeData.title
+        this.#currentRoute = route
+        
+        if (routeData.onAttach) {
+          routeData.onAttach.map((f) => f(route))
         }
       }
     }
   }
 
-  onRouteChange(route, cb) {
+  onRouteAttach(route, cb) {
     if (route in this.#routes) {
       const routeData = this.#routes[route]
-      if (routeData.cb) {
-        routeData.cb.push(cb)
+      if (routeData.onAttach) {
+        routeData.onAttach.push(cb)
       } else {
-        routeData.cb = [cb]
+        routeData.onAttach = [cb]
+      }
+    }
+  }
+
+  onRouteDetach(route, cb) {
+    if (route in this.#routes) {
+      const routeData = this.#routes[route]
+      if (routeData.onDetach) {
+        routeData.onDetach.push(cb)
+      } else {
+        routeData.onDetach = [cb]
       }
     }
   }
 
   pushToHistory(route) {
     if (route in this.#routes) {
-      window.history.pushState(this.#routes[route].contentID, '', this.createURL(route))
+      window.history.pushState(route, '', getAbsoluteURL(route))
     }
   }
 
   replaceInHistory(route) {
     if (route in this.#routes) {
-      window.history.replaceState(this.#routes[route].contentID, '', this.createURL(route))
+      window.history.replaceState(route, '', getAbsoluteURL(route))
     }
-  }
-
-  createURL(route) {
-    return ORIGIN + route
   }
 
   get currentRoute() {
@@ -125,4 +144,4 @@ class Router {
   }
 }
 
-export const router = new Router()
+export const router = new Router(routes)

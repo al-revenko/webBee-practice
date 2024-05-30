@@ -1,4 +1,4 @@
-import { ORIGIN } from "./origin.js"
+import { ORIGIN } from "../origin.js"
 
 window.localStorage.setItem(
   '404-redirect', 

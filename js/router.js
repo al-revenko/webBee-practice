@@ -3,28 +3,24 @@ import { getAbsoluteURL, attach, detach } from "./uttils.js"
 const routes = {
   '/': {
     title: 'Resume',
-    id: 'resume',
     component: './components/resume.html',
     root: 'page'
   },
 
   '/map': {
     title: 'Map',
-    id: 'map',
     component: './components/map.html',
     root: 'page'
   },
 
   '/time': {
     title: 'Time',
-    id: 'time',
     component: './components/timer.html',
     root: 'page'
   },
 
   '/404': {
     title: 'Not found',
-    id: 'not-found',
     component: './components/not-found.html',
     root: 'page'
   },
